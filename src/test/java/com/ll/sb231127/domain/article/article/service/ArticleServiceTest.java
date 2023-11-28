@@ -12,7 +12,6 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.ll.sb231127.domain.article.article.entity.Article;
 import com.ll.sb231127.domain.article.articleComment.entity.ArticleComment;
-import com.ll.sb231127.domain.article.articleComment.service.ArticleCommentService;
 import com.ll.sb231127.domain.member.member.entity.Member;
 import com.ll.sb231127.domain.member.member.service.MemberService;
 import com.ll.sb231127.global.rsData.RsData;
@@ -26,8 +25,6 @@ public class ArticleServiceTest {
     private ArticleService articleService;
     @Autowired
     private MemberService memberService;
-    @Autowired
-    private ArticleCommentService articleCommentService;
 
     @DisplayName("글 쓰기")
     @Test
