@@ -1,5 +1,6 @@
 package com.ll.sb231127.domain.article.article.entity;
 
+import static jakarta.persistence.FetchType.*;
 import static jakarta.persistence.GenerationType.*;
 import static lombok.AccessLevel.*;
 
@@ -28,7 +29,7 @@ public class Article {
     @GeneratedValue(strategy = IDENTITY)
     @EqualsAndHashCode.Include
     private Long id;
-    @ManyToOne
+    @ManyToOne(fetch = LAZY)
     private Member author;
     private String title;
     private String body;
