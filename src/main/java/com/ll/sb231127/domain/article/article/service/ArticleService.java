@@ -1,11 +1,13 @@
 package com.ll.sb231127.domain.article.article.service;
 
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+
 import com.ll.sb231127.domain.article.article.entity.Article;
 import com.ll.sb231127.domain.article.article.repository.ArticleRepository;
 import com.ll.sb231127.global.rsData.RsData;
+
 import lombok.RequiredArgsConstructor;
-import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 
 @Service
 @Transactional(readOnly = true)
@@ -14,8 +16,9 @@ public class ArticleService {
     private final ArticleRepository articleRepository;
 
     @Transactional
-    public RsData<Article> write(String title, String body) {
+    public RsData<Article> write(long authorId,String title, String body) {
         Article article = Article.builder()
+                .authorId(authorId)
                 .title(title)
                 .body(body)
                 .build();
