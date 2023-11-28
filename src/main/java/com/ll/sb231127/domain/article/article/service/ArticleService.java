@@ -1,5 +1,7 @@
 package com.ll.sb231127.domain.article.article.service;
 
+import java.util.Optional;
+
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -26,5 +28,9 @@ public class ArticleService {
         articleRepository.save(article);
 
         return RsData.of("200", "%d번 게시글이 작성되었습니다.".formatted(article.getId()), article);
+    }
+
+    public Optional<Article> findById(long id) {
+        return articleRepository.findById(id);
     }
 }
