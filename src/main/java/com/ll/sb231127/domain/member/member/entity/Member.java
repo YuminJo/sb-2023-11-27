@@ -1,17 +1,12 @@
 package com.ll.sb231127.domain.member.member.entity;
 
-import static jakarta.persistence.GenerationType.*;
-import static lombok.AccessLevel.*;
-
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.Id;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.EqualsAndHashCode;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
+
+import static jakarta.persistence.GenerationType.IDENTITY;
+import static lombok.AccessLevel.PROTECTED;
 
 @Entity
 @NoArgsConstructor(access = PROTECTED)
@@ -21,10 +16,10 @@ import lombok.Setter;
 @Setter
 @EqualsAndHashCode
 public class Member {
-	@Id
-	@GeneratedValue(strategy = IDENTITY)
-	@EqualsAndHashCode.Include
-	private Long id;
-	private String username;
-	private String password;
+    @Id
+    @GeneratedValue(strategy = IDENTITY)
+    @EqualsAndHashCode.Include
+    private Long id;
+    private String username;
+    private String password;
 }
