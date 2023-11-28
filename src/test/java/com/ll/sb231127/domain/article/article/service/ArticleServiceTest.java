@@ -6,12 +6,15 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.test.annotation.Rollback;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.ll.sb231127.domain.article.article.entity.Article;
 import com.ll.sb231127.domain.article.articleComment.entity.ArticleComment;
+import com.ll.sb231127.domain.article.articleComment.service.ArticleCommentService;
 import com.ll.sb231127.domain.member.member.entity.Member;
+import com.ll.sb231127.domain.member.member.service.MemberService;
 import com.ll.sb231127.global.rsData.RsData;
 import com.ll.sb231127.standard.util.Ut;
 
@@ -21,6 +24,10 @@ import com.ll.sb231127.standard.util.Ut;
 public class ArticleServiceTest {
     @Autowired
     private ArticleService articleService;
+    @Autowired
+    private MemberService memberService;
+    @Autowired
+    private ArticleCommentService articleCommentService;
 
     @DisplayName("글 쓰기")
     @Test
@@ -61,23 +68,29 @@ public class ArticleServiceTest {
         assertThat(article_.getTitle()).isEqualTo("수정된 제목");
     }
 
-    @DisplayName("1번 글의 댓글들을 수정한다..")
+    @DisplayName("2번 글에 댓글들을 추가한다.")
     @Test
+    @Rollback(false)
     void t5() {
-        Article article = articleService.findById(1L).get();
+        Member member1 = memberService.findById(1L).get();
+        Article article2 = articleService.findById(2L).get();
 
-        article.getComments().forEach(comment -> {
-            articleService.modifyComment(comment, comment.getBody() + "!!");
-        });
+        articleCommentService.write(member1, article2, "댓글1");
+    }
+
+    @DisplayName("1번 글의 댓글들을 수정한다.")
+    @Test
+    void t6() {
+        ArticleComment comment = articleCommentService.findLatest().get();
+
+        articleCommentService.modify(comment, "new body");
     }
 
     @DisplayName("1번 글의 댓글 중 마지막 것을 삭제한다.")
     @Test
-    void t6() {
-        Article article = articleService.findById(1L).get();
+    void t7() {
+        ArticleComment comment = articleCommentService.findFirstByArticleIdOrderByIdDesc(1L).get();
 
-        ArticleComment lastComment = article.getComments().getLast();
-
-        article.removeComment(lastComment);
+        articleCommentService.delete(comment);
     }
 }

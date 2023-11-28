@@ -10,6 +10,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.ll.sb231127.domain.article.article.entity.Article;
 import com.ll.sb231127.domain.article.article.service.ArticleService;
+import com.ll.sb231127.domain.article.articleComment.service.ArticleCommentService;
 import com.ll.sb231127.domain.member.member.entity.Member;
 import com.ll.sb231127.domain.member.member.service.MemberService;
 
@@ -24,6 +25,7 @@ public class NotProd {
     private NotProd self;
     private final MemberService memberService;
     private final ArticleService articleService;
+    private final ArticleCommentService articleCommentService;
 
     @Bean
     public ApplicationRunner initNotProdData() {
@@ -50,7 +52,7 @@ public class NotProd {
         Member member1 = memberService.findById(1L).get();
         Article article1 = articleService.findById(1L).get();
 
-        article1.addComment(member1, "댓글1");
-        article1.addComment(member1, "댓글1");
+        articleCommentService.write(member1, article1, "댓글1");
+        articleCommentService.write(member1, article1, "댓글1");
     }
 }
