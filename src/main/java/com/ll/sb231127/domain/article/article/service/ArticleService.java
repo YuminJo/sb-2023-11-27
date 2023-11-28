@@ -1,5 +1,6 @@
 package com.ll.sb231127.domain.article.article.service;
 
+import java.time.LocalDateTime;
 import java.util.Optional;
 
 import org.springframework.stereotype.Service;
@@ -16,22 +17,23 @@ import lombok.RequiredArgsConstructor;
 @Transactional(readOnly = true)
 @RequiredArgsConstructor
 public class ArticleService {
-    private final ArticleRepository articleRepository;
+	private final ArticleRepository articleRepository;
 
-    @Transactional
-    public RsData<Article> write(long authorId,String title, String body) {
-        Article article = Article.builder()
-                .author(Member.builder().id(authorId).build())
-                .title(title)
-                .body(body)
-                .build();
+	@Transactional
+	public RsData<Article> write(long authorId, String title, String body) {
+		Article article = Article.builder()
+			.modifyDate(LocalDateTime.now())
+			.author(Member.builder().id(authorId).build())
+			.title(title)
+			.body(body)
+			.build();
 
-        articleRepository.save(article);
+		articleRepository.save(article);
 
-        return RsData.of("200", "%d번 게시글이 작성되었습니다.".formatted(article.getId()), article);
-    }
+		return RsData.of("200", "%d번 게시글이 작성되었습니다.".formatted(article.getId()), article);
+	}
 
-    public Optional<Article> findById(long id) {
-        return articleRepository.findById(id);
-    }
+	public Optional<Article> findById(long id) {
+		return articleRepository.findById(id);
+	}
 }
