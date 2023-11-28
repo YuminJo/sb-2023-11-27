@@ -2,6 +2,8 @@ package com.ll.sb231127.domain.article.article.service;
 
 import static org.assertj.core.api.Assertions.*;
 
+import java.time.LocalDateTime;
+
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,6 +15,7 @@ import com.ll.sb231127.domain.article.article.entity.Article;
 import com.ll.sb231127.domain.member.member.entity.Member;
 import com.ll.sb231127.domain.member.member.service.MemberService;
 import com.ll.sb231127.global.rsData.RsData;
+import com.ll.sb231127.standard.util.Ut;
 
 @SpringBootTest
 @ActiveProfiles("test")
@@ -52,11 +55,15 @@ public class ArticleServiceTest {
     @Test
     void t4() {
         Article article = articleService.findById(1L).get();
+        LocalDateTime modifyDate = article.getModifyDate();
+
+        Ut.thread.sleep(1000);
 
         articleService.modify(article, "수정된 제목","수정된 내용");
 
         Article article_ = articleService.findById(1L).get();
 
         assertThat(article_.getTitle()).isEqualTo("수정된 제목");
+        assertThat(article_.getModifyDate()).isAfter(modifyDate.plusSeconds(1));
     }
 }

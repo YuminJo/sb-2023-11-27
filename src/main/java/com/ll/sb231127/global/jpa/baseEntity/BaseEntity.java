@@ -15,6 +15,7 @@ import jakarta.persistence.MappedSuperclass;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
 import lombok.ToString;
 import lombok.experimental.SuperBuilder;
 
@@ -32,5 +33,6 @@ public class BaseEntity {
 	private Long id;
 	@CreatedDate
 	private LocalDateTime createDate;
+	@Setter
 	private LocalDateTime modifyDate;
 }
