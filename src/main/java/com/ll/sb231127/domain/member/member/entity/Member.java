@@ -1,25 +1,25 @@
 package com.ll.sb231127.domain.member.member.entity;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.Id;
-import lombok.*;
+import static lombok.AccessLevel.*;
 
-import static jakarta.persistence.GenerationType.IDENTITY;
-import static lombok.AccessLevel.PROTECTED;
+import com.ll.sb231127.global.jpa.baseEntity.BaseEntity;
+
+import jakarta.persistence.Entity;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+import lombok.ToString;
+import lombok.experimental.SuperBuilder;
 
 @Entity
-@NoArgsConstructor(access = PROTECTED)
+@SuperBuilder
 @AllArgsConstructor(access = PROTECTED)
-@Builder
+@NoArgsConstructor(access = PROTECTED)
 @Getter
 @Setter
-@EqualsAndHashCode
-public class Member {
-    @Id
-    @GeneratedValue(strategy = IDENTITY)
-    @EqualsAndHashCode.Include
-    private Long id;
+@ToString(callSuper = true)
+public class Member extends BaseEntity {
     private String username;
     private String password;
 }

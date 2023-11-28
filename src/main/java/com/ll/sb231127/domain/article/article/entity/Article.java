@@ -1,34 +1,28 @@
 package com.ll.sb231127.domain.article.article.entity;
 
 import static jakarta.persistence.FetchType.*;
-import static jakarta.persistence.GenerationType.*;
 import static lombok.AccessLevel.*;
 
 import com.ll.sb231127.domain.member.member.entity.Member;
+import com.ll.sb231127.global.jpa.baseEntity.BaseEntity;
 
 import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.Id;
 import jakarta.persistence.ManyToOne;
 import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import lombok.ToString;
+import lombok.experimental.SuperBuilder;
 
 @Entity
-@NoArgsConstructor(access = PROTECTED)
+@SuperBuilder
 @AllArgsConstructor(access = PROTECTED)
-@Builder
+@NoArgsConstructor(access = PROTECTED)
 @Getter
 @Setter
-@EqualsAndHashCode
-public class Article {
-    @Id
-    @GeneratedValue(strategy = IDENTITY)
-    @EqualsAndHashCode.Include
-    private Long id;
+@ToString(callSuper = true)
+public class Article extends BaseEntity {
     @ManyToOne(fetch = LAZY)
     private Member author;
     private String title;
