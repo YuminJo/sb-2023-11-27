@@ -1,11 +1,10 @@
 package com.ll.sb231127.domain.article.article.repository;
 
-import java.util.List;
-
+import com.ll.sb231127.domain.article.article.entity.Article;
 import org.springframework.data.jpa.repository.JpaRepository;
 
-import com.ll.sb231127.domain.article.article.entity.Article;
+import java.util.List;
 
 public interface ArticleRepository extends JpaRepository<Article, Long> {
-	List<Article> findByOrderByIdDesc();
+    List<Article> findByOrderByIdDesc();
 }

@@ -1,23 +1,24 @@
 package com.ll.sb231127.domain.article.article.service;
 
-import static org.assertj.core.api.Assertions.*;
-
-import java.util.List;
-
-import org.junit.jupiter.api.DisplayName;
-import org.junit.jupiter.api.Test;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.test.annotation.Rollback;
-import org.springframework.test.context.ActiveProfiles;
-import org.springframework.transaction.annotation.Transactional;
-
 import com.ll.sb231127.domain.article.article.entity.Article;
 import com.ll.sb231127.domain.article.articleComment.entity.ArticleComment;
+import com.ll.sb231127.domain.article.articleComment.service.ArticleCommentService;
+import com.ll.sb231127.domain.article.articleTag.entity.ArticleTag;
+import com.ll.sb231127.domain.article.articleTag.service.ArticleTagService;
 import com.ll.sb231127.domain.member.member.entity.Member;
 import com.ll.sb231127.domain.member.member.service.MemberService;
 import com.ll.sb231127.global.rsData.RsData;
 import com.ll.sb231127.standard.util.Ut;
+import org.junit.jupiter.api.DisplayName;
+import org.junit.jupiter.api.Test;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.test.context.ActiveProfiles;
+import org.springframework.transaction.annotation.Transactional;
+
+import java.util.List;
+
+import static org.assertj.core.api.Assertions.assertThat;
 
 @SpringBootTest
 @ActiveProfiles("test")
@@ -27,6 +28,10 @@ public class ArticleServiceTest {
     private ArticleService articleService;
     @Autowired
     private MemberService memberService;
+    @Autowired
+    private ArticleCommentService articleCommentService;
+    @Autowired
+    private ArticleTagService articleTagService;
 
     @DisplayName("글 쓰기")
     @Test
@@ -69,19 +74,18 @@ public class ArticleServiceTest {
 
     @DisplayName("2번 글에 댓글들을 추가한다.")
     @Test
-    @Rollback(false)
     void t5() {
         Member member1 = memberService.findById(1L).get();
         Article article2 = articleService.findById(2L).get();
 
-        article2.addComment(member1, "댓글1");
+        article2.addComment(member1, "댓글3");
     }
 
     @DisplayName("1번 글의 댓글들을 수정한다.")
     @Test
     void t6() {
         Article article1 = articleService.findById(1L).get();
-        
+
         article1.getComments().getLast().setBody("수정된 댓글");
     }
 
@@ -101,7 +105,49 @@ public class ArticleServiceTest {
 
         articles.forEach(article -> {
             System.out.println("게시물 번호: " + article.getId());
-            System.out.println("댓글 수 " + article.getComments().size());
+            System.out.println("댓글 수: " + article.getComments().size());
         });
+    }
+
+    @DisplayName("1번 게시물의 태그(String)를 반환한다.")
+    @Test
+    void t9() {
+        Article article1 = articleService.findById(1L).get();
+
+        String tagsStr = article1.getTagsStr();
+
+        assertThat(tagsStr).isEqualTo("#자바 #백엔드");
+    }
+
+    @DisplayName("1번 게시물 toString")
+    @Test
+    void t10() {
+        Article article1 = articleService.findById(1L).get();
+
+        System.out.println(article1);
+    }
+
+    @DisplayName("1번 회원이 작성한 댓글들")
+    @Test
+    void t11() {
+        List<ArticleComment> articleComments = articleCommentService.findByAuthorId(1L);
+
+        assertThat(articleComments.size()).isGreaterThan(0);
+    }
+
+    @DisplayName("1번 회원이 작성한 태그들")
+    @Test
+    void t12() {
+        List<ArticleTag> articleTags = articleTagService.findByAuthorId(1L);
+
+        assertThat(articleTags.size()).isGreaterThan(0);
+    }
+
+    @DisplayName("아이디가 user1 인 회원이 작성한 태그들")
+    @Test
+    void t13() {
+        List<ArticleTag> articleTags = articleTagService.findByAuthorUsername("user1");
+
+        assertThat(articleTags.size()).isGreaterThan(0);
     }
 }
