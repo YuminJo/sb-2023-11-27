@@ -2,6 +2,8 @@ package com.ll.sb231127.domain.article.article.service;
 
 import static org.assertj.core.api.Assertions.*;
 
+import java.util.List;
+
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -90,5 +92,16 @@ public class ArticleServiceTest {
 
         ArticleComment lastComment = article1.getComments().getLast();
         article1.removeComment(lastComment);
+    }
+
+    @DisplayName("게시물 별 댓글 수 출력")
+    @Test
+    void t8() {
+        List<Article> articles = articleService.findAll();
+
+        articles.forEach(article -> {
+            System.out.println("게시물 번호: " + article.getId());
+            System.out.println("댓글 수 " + article.getComments().size());
+        });
     }
 }

@@ -1,6 +1,7 @@
 package com.ll.sb231127.domain.article.article.service;
 
 import java.time.LocalDateTime;
+import java.util.List;
 import java.util.Optional;
 
 import org.springframework.stereotype.Service;
@@ -41,5 +42,9 @@ public class ArticleService {
 	public void modify(Article article, String title, String body) {
 		article.setTitle(title);
 		article.setBody(body);
+	}
+
+	public List<Article> findAll() {
+		return articleRepository.findByOrderByIdDesc();
 	}
 }

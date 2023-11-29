@@ -1,5 +1,10 @@
 package com.ll.sb231127.global.initData;
 
+import com.ll.sb231127.domain.article.article.entity.Article;
+import com.ll.sb231127.domain.article.article.service.ArticleService;
+import com.ll.sb231127.domain.member.member.entity.Member;
+import com.ll.sb231127.domain.member.member.service.MemberService;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.ApplicationRunner;
 import org.springframework.context.annotation.Bean;
@@ -7,13 +12,6 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Lazy;
 import org.springframework.context.annotation.Profile;
 import org.springframework.transaction.annotation.Transactional;
-
-import com.ll.sb231127.domain.article.article.entity.Article;
-import com.ll.sb231127.domain.article.article.service.ArticleService;
-import com.ll.sb231127.domain.member.member.entity.Member;
-import com.ll.sb231127.domain.member.member.service.MemberService;
-
-import lombok.RequiredArgsConstructor;
 
 @Profile("!prod")
 @Configuration
@@ -49,8 +47,17 @@ public class NotProd {
     public void work2() {
         Member member1 = memberService.findById(1L).get();
         Article article1 = articleService.findById(1L).get();
+        Article article2 = articleService.findById(2L).get();
 
         article1.addComment(member1, "댓글1");
         article1.addComment(member1, "댓글2");
+
+        article2.addComment(member1, "댓글3");
+        article2.addComment(member1, "댓글4");
+        article2.addComment(member1, "댓글5");
+
+        article1.addTag("자바");
+        article1.addTag("백엔드");
+        article2.addTag("프레임워크", "스프링부트");
     }
 }
